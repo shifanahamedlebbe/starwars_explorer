@@ -8,7 +8,7 @@ import { PeopleListResponse } from 'services/peoples/types';
 export const peopleApi = createApi({
   reducerPath: 'peopleApi',
   // Api Custome handler added with common error handling
-  baseQuery: baseQueryWithErrorHandler as any,
+  baseQuery: baseQueryWithErrorHandler,
   endpoints: builder => ({
     getPeople: builder.query<PeopleListResponse, { page?: number }>({
       query: ({ page }) => ({

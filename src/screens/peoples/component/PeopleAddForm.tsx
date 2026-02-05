@@ -37,12 +37,17 @@ const PeopleAddForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.avoid}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 20}>
-      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+      style={styles.avoidContainer}>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <View>
           <Text style={styles.label}>Name</Text>
-          <TextInput value={name} onChangeText={setName} placeholder="Name" style={styles.input} />
+          <TextInput
+            autoFocus
+            value={name}
+            onChangeText={setName}
+            placeholder="Name"
+            style={styles.input}
+          />
           {nameError ? <Text style={styles.error}>{nameError}</Text> : null}
 
           <Text style={[styles.label, { marginTop: 12 }]}>Birth Year</Text>
@@ -50,7 +55,6 @@ const PeopleAddForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
             value={birth}
             onChangeText={setBirth}
             placeholder="1970"
-            keyboardType="numeric"
             style={styles.input}
           />
           {birthError ? <Text style={styles.error}>{birthError}</Text> : null}
@@ -73,8 +77,7 @@ const PeopleAddForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
 };
 
 const styles = StyleSheet.create({
-  avoid: { flex: 1 },
-  scroll: { flexGrow: 1 },
+  avoidContainer: { flex: 1 },
   label: { fontSize: 14, fontWeight: '600', marginBottom: 6 },
   input: {
     borderWidth: 1,
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
   cancel: { paddingVertical: 8, paddingHorizontal: 12 },
   cancelText: { color: '#333' },
   create: {
-    backgroundColor: '#2563eb',
+    backgroundColor: 'blue',
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,

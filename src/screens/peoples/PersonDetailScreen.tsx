@@ -12,7 +12,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 const PersonDetailScreen: React.FC<Props> = ({ route }) => {
   const { id } = route.params;
 
-  // get people by param id
+  // get people by passed param id
   const person = useAppSelector(s =>
     s.people.peoples.find(p => {
       if (!p || !p.url) return false;
@@ -89,5 +89,4 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   title: { fontSize: 22, fontWeight: '700', marginBottom: 8 },
   row: { fontSize: 16, marginBottom: 6 },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });

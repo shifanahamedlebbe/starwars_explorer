@@ -22,7 +22,7 @@ type ListItemProps = { item: Person; onPress: (url: string) => void };
 const PeopleListItem = React.memo(
   function PeopleListItem({ item, onPress }: ListItemProps) {
     return (
-      <TouchableOpacity style={styles.item} onPress={() => onPress(item.url)}>
+      <TouchableOpacity style={styles.peopleTouchable} onPress={() => onPress(item.url)}>
         <Text style={styles.title}>{item.name}</Text>
         <Text style={styles.year}>{item.birth_year || item.height}</Text>
       </TouchableOpacity>
@@ -55,7 +55,7 @@ const PeopleListScreen: React.FC<Props> = ({ navigation }) => {
     getPeople({ page: page });
   }, [page, getPeople]);
 
-  const filteredItems = useMemo(() => {
+  const filteredPeoples = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return peoples;
     return peoples.filter(p => {
@@ -64,9 +64,7 @@ const PeopleListScreen: React.FC<Props> = ({ navigation }) => {
     });
   }, [peoples, search]);
 
-  const items = filteredItems;
-
-  const loadMore = useCallback(() => {
+  const loadMorePeople = useCallback(() => {
     // This stops when filtering locally, FlatList is firing onEndReached when all the item become visible.
     if (search.trim().length > 0) return;
     if (isFetching) return;
@@ -77,7 +75,7 @@ const PeopleListScreen: React.FC<Props> = ({ navigation }) => {
 
   const clickOpenDetail = useCallback(
     (url: string) => {
-      const id = url.split('/')[1] || '';
+      const id = url.split('/').filter(Boolean).pop() || '';
       navigation.navigate('Detail', { id });
     },
     [navigation]
@@ -121,26 +119,31 @@ const PeopleListScreen: React.FC<Props> = ({ navigation }) => {
         <Loading />
       ) : error ? (
         <View style={styles.center}>
-          <Text>Error loading data</Text>
+          <Text>Error loading people</Text>
         </View>
       ) : (
         <Suspense fallback={null}>
           <PeopleList
-            items={items}
+            peoples={filteredPeoples}
             renderItem={renderItem}
             isFetching={isFetching}
-            loadMore={loadMore}
+            loadMore={loadMorePeople}
             keyExtractor={item => item.url}
           />
         </Suspense>
       )}
 
       {modalVisible && (
-        <Suspense fallback={<Loading />}>
+        <Suspense
+          fallback={
+            <View style={styles.loadingContainer}>
+              <Loading />
+            </View>
+          }>
           <Popup
             visible={modalVisible}
             onClose={() => setModalVisible(false)}
-            title="Create Person">
+            title="Create People">
             <SafeAreaView style={styles.modal}>
               <PeopleAddForm
                 onCancel={() => setModalVisible(false)}
@@ -166,9 +169,6 @@ const styles = StyleSheet.create({
     padding: 12,
     gap: 8,
     backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 8,
   },
   createButton: {
     backgroundColor: 'blue',
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   createButtonText: { color: 'white' },
-  item: {
+  peopleTouchable: {
     padding: 16,
     marginHorizontal: 12,
     marginVertical: 8,
@@ -191,4 +191,13 @@ const styles = StyleSheet.create({
   year: { color: '#666', marginTop: 4 },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   modal: { flex: 1, padding: 16 },
+  loadingContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
