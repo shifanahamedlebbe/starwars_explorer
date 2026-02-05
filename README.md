@@ -25,8 +25,8 @@ It allows users to **Search Star Wars characters and view asociated user details
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/username/project.git
-cd project
+git clone https://github.com/shifanahamedlebbe/starwars_explorer.git
+cd starwars_explorer
 ```
 
 2. Install dependencies:
@@ -65,20 +65,24 @@ npm install -g expo-cli
 
 ## Project Architecture
 
-```
 assets/
 src/
-  ── components/          # Reusable shared UI components
-  ── screens/             # Feature-based screens
-    ── Feature1/          # Feature1
-      ── Component/        # Components related to Feature 1
-  ── navigation/          # React Navigation setup
-  ── services/            # API calls (RTK Query)
-    ── Feature1-Services/          # Feature1
-  ── store/               # Redux Toolkit store
-```
+── components/ # Reusable shared UI components
+── screens/ # Feature-based screens
+── Feature1/ # Feature1
+── Component/ # Components related to Feature 1
+── navigation/ # React Navigation setup
+── services/ # API calls (RTK Query)
+── Feature1-Services/ # Feature1
+── store/ # Redux Toolkit store
 
 ---
+
+## Considerable packages
+
+- react-redux - State management too that we can use this for scallable application with complex states
+- reduxjs/toolkit - State management and api calls with caching to improve handle api calls and state handling
+- react-native-safe-area-context - handle safe area & notches for different devices
 
 ## Code Style & Linting
 
